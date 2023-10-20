@@ -8,4 +8,6 @@ import java.util.List;
 public interface PostService {
 
     List<PostDTO> findAllPosts();
+
+    void createPost(PostDTO postDTO);
 }

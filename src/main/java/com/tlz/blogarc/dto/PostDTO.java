@@ -1,18 +1,32 @@
 package com.tlz.blogarc.dto;
 
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PostDTO {
     private Long id;
+
+    @NotEmpty(message = "Must enter a post title.")
     private String title;
+
     private String url;
+
+    @NotEmpty(message = "Must enter text in the content field.")
     private String content;
-    private String shortDesc;
+
+    @NotEmpty(message = "Please enter a short description.")
+    private String shortDescription;
+
     private LocalDateTime createdOn;
+
     private LocalDateTime updatedOn;
 }

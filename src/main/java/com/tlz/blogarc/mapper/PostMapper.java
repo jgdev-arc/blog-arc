@@ -12,7 +12,7 @@ public class PostMapper {
                 .title(post.getTitle())
                 .url(post.getUrl())
                 .content(post.getContent())
-                .shortDesc(post.getShortDesc())
+                .shortDescription(post.getShortDesc())
                 .createdOn(post.getCreatedOn())
                 .updatedOn(post.getUpdatedOn())
                 .build();
@@ -25,7 +25,7 @@ public class PostMapper {
                 .title(postDTO.getTitle())
                 .content(postDTO.getContent())
                 .url(postDTO.getUrl())
-                .shortDesc(postDTO.getShortDesc())
+                .shortDesc(postDTO.getShortDescription())
                 .createdOn(postDTO.getCreatedOn())
                 .updatedOn(postDTO.getUpdatedOn())
                 .build();

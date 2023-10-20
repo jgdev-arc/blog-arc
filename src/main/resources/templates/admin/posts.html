@@ -24,7 +24,7 @@
                 <tr th:each="post, postStat : ${posts}">
                     <td th:text="${postStat.count}">1</td>
                     <td th:text="${post.title}">post title</td>
-                    <td th:text="${post.shortDesc}">post short description</td>
+                    <td th:text="${post.shortDescription}">post short description</td>
                     <td th:text="${post.createdOn}">post created date</td>
                     <td></td>
                 </tr>
