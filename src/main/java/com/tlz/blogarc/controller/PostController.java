@@ -86,6 +86,15 @@ public class PostController {
         return "redirect:/admin/posts";
     }
 
+    // view post request
+    @GetMapping("/admin/posts/{postUrl}/view")
+    public String viewPost(@PathVariable("postUrl") String postUrl,
+                           Model model) {
+        PostDTO postDTO = postService.findPostByUrl(postUrl);
+        model.addAttribute("post", postDTO);
+        return "admin/view_post";
+    }
+
 
     private static  String getUrl(String postTitle) {
         String title = postTitle.trim().toLowerCase();
