@@ -29,7 +29,7 @@ public class Post {
     @Column(nullable = false)
     private String content;
 
-    private String shortDesc;
+    private String shortDescription;
 
     @CreationTimestamp
     private LocalDateTime createdOn;
