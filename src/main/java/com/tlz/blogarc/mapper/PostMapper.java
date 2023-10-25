@@ -3,6 +3,8 @@ package com.tlz.blogarc.mapper;
 import com.tlz.blogarc.dto.PostDTO;
 import com.tlz.blogarc.entity.Post;
 
+import java.util.stream.Collectors;
+
 public class PostMapper {
 
     // Post entity to PostDTO
@@ -15,6 +17,9 @@ public class PostMapper {
                 .shortDescription(post.getShortDescription())
                 .createdOn(post.getCreatedOn())
                 .updatedOn(post.getUpdatedOn())
+               .comments(post.getComments().stream()
+                       .map((comment) -> CommentMapper.mapToCommentDTO(comment))
+                       .collect(Collectors.toSet()))
                 .build();
     }
 
