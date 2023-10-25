@@ -1,5 +1,6 @@
 package com.tlz.blogarc.controller;
 
+import com.tlz.blogarc.dto.CommentDTO;
 import com.tlz.blogarc.dto.PostDTO;
 import com.tlz.blogarc.service.PostService;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,10 @@ public class BlogController {
     public String showPost(@PathVariable("postUrl") String postUrl,
                            Model model) {
         PostDTO post = postService.findPostByUrl(postUrl);
+
+        CommentDTO commentDTO = new CommentDTO();
+
+        model.addAttribute("comment", commentDTO);
         model.addAttribute("post", post);
         return "blog/blog_post";
 
