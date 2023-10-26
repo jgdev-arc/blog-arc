@@ -1,6 +1,8 @@
 package com.tlz.blogarc.controller;
 
+import com.tlz.blogarc.dto.CommentDTO;
 import com.tlz.blogarc.dto.PostDTO;
+import com.tlz.blogarc.service.CommentService;
 import com.tlz.blogarc.service.PostService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -14,9 +16,12 @@ import java.util.List;
 public class PostController {
 
     private PostService postService;
+    private CommentService commentService;
 
-    public PostController(PostService postService) {
+
+    public PostController(PostService postService, CommentService commentService) {
         this.postService = postService;
+        this.commentService = commentService;
     }
 
     // deals with GET request and returns model/view
@@ -26,6 +31,22 @@ public class PostController {
         model.addAttribute("posts", posts);
         return "/admin/posts";
     }
+
+    // list comments request
+    @GetMapping("/admin/posts/comments")
+    public String postComments(Model model) {
+        List<CommentDTO> comments = commentService.findAllComments();
+        model.addAttribute("comments", comments);
+        return "admin/comments";
+    }
+
+    // delete comment request
+    @GetMapping("/admin/posts/comments/{commentId}")
+    public String deleteComment(@PathVariable("commentId") Long commentId) {
+        commentService.deleteComment(commentId);
+        return "redirect:/admin/posts/comments";
+    }
+
 
     // new POST request
     @GetMapping("admin/posts/newpost")

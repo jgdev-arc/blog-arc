@@ -9,6 +9,9 @@ import com.tlz.blogarc.repository.PostRepository;
 import com.tlz.blogarc.service.CommentService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CommentServiceImpl implements CommentService {
 
@@ -28,5 +31,18 @@ public class CommentServiceImpl implements CommentService {
         comment.setPost(post);
         commentRepository.save(comment);
 
+    }
+
+    @Override
+    public List<CommentDTO> findAllComments() {
+        List<Comment> comments = commentRepository.findAll();
+        return comments.stream()
+                .map(CommentMapper::mapToCommentDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
     }
 }
