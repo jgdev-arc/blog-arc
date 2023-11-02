@@ -4,6 +4,8 @@ import com.tlz.blogarc.dto.CommentDTO;
 import com.tlz.blogarc.dto.PostDTO;
 import com.tlz.blogarc.service.CommentService;
 import com.tlz.blogarc.service.PostService;
+import com.tlz.blogarc.util.ROLE;
+import com.tlz.blogarc.util.SecurityUtils;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +29,13 @@ public class PostController {
     // deals with GET request and returns model/view
     @GetMapping("/admin/posts")
     public String posts(Model model) {
-        List<PostDTO> posts = postService.findAllPosts();
+        String role = SecurityUtils.getRole();
+        List<PostDTO> posts = null;
+        if (ROLE.ROLE_ADMIN.name().equals(role)) {
+            posts = postService.findAllPosts();
+        } else {
+            posts = postService.findPostsByUser();
+        }
         model.addAttribute("posts", posts);
         return "/admin/posts";
     }
@@ -35,7 +43,13 @@ public class PostController {
     // list comments request
     @GetMapping("/admin/posts/comments")
     public String postComments(Model model) {
-        List<CommentDTO> comments = commentService.findAllComments();
+        String role = SecurityUtils.getRole();
+        List<CommentDTO> comments = null;
+        if (ROLE.ROLE_ADMIN.name().equals(role)) {
+            comments = commentService.findAllComments();
+        } else {
+            comments = commentService.findCommentByPosts();
+        }
         model.addAttribute("comments", comments);
         return "admin/comments";
     }

@@ -9,6 +9,8 @@ public interface PostService {
 
     List<PostDTO> findAllPosts();
 
+    List<PostDTO> findPostsByUser();
+
     void createPost(PostDTO postDTO);
 
     PostDTO findPostById(Long postId);

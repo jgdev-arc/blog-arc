@@ -2,9 +2,12 @@ package com.tlz.blogarc.service.impl;
 
 import com.tlz.blogarc.dto.PostDTO;
 import com.tlz.blogarc.entity.Post;
+import com.tlz.blogarc.entity.User;
 import com.tlz.blogarc.mapper.PostMapper;
 import com.tlz.blogarc.repository.PostRepository;
+import com.tlz.blogarc.repository.UserRepository;
 import com.tlz.blogarc.service.PostService;
+import com.tlz.blogarc.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +18,12 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public PostServiceImpl(PostRepository postRepository) {
+    public PostServiceImpl(PostRepository postRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -29,8 +34,22 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<PostDTO> findPostsByUser() {
+        String email = SecurityUtils.getCurrentUser().getUsername();
+        User createdBy = userRepository.findByEmail(email);
+        Long userId = createdBy.getId();
+        List<Post> posts = postRepository.findPostsByUser(userId);
+        return posts.stream()
+                .map((post) -> PostMapper.mapToPostDTO(post))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void createPost(PostDTO postDTO) {
+        String email = SecurityUtils.getCurrentUser().getUsername();
+        User user = userRepository.findByEmail(email);
         Post post = PostMapper.mapToPost(postDTO);
+        post.setCreatedBy(user);
         postRepository.save(post);
     }
 
@@ -42,7 +61,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void updatePost(PostDTO postDTO) {
+        String email = SecurityUtils.getCurrentUser().getUsername();
+        User createdBy = userRepository.findByEmail(email);
         Post post = PostMapper.mapToPost(postDTO);
+        post.setCreatedBy(createdBy);
         postRepository.save(post);
     }
 
