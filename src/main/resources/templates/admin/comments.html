@@ -25,7 +25,7 @@
                 <td th:text="${iterStat.count}"></td>
                 <td th:text="${comment.email}"></td>
                 <td th:text="${comment.content}"></td>
-                <td th:text="${#temporals.format(comment.createdOn, 'mm-DD-yyyy')}"></td>
+                <td th:text="${#temporals.format(comment.createdOn, 'MM/dd/yyyy')}"></td>
                 <td>
                     <a class="btn btn-danger" th:href="@{/admin/posts/comments/{commentId}(commentId=${comment.id})}">Delete</a>
                 </td>
